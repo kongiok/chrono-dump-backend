@@ -2,9 +2,12 @@
   "name": "chrono-dump-backend",
   "version": "1.0.0",
   "description": "The backend for chrono-dump",
+  "type": "module",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node index.js",
+    "dev": "nodemon index.js",
+    "test": "nyc mocha"
   },
   "repository": {
     "type": "git",
@@ -15,5 +18,16 @@
   "bugs": {
     "url": "https://github.com/kongiok/chrono-dump-backend/issues"
   },
-  "homepage": "https://github.com/kongiok/chrono-dump-backend#readme"
+  "homepage": "https://github.com/kongiok/chrono-dump-backend#readme",
+  "dependencies": {
+    "express": "^4.19.2"
+  },
+  "devDependencies": {
+    "chai": "^5.1.0",
+    "istanbul": "^0.4.5",
+    "mocha": "^10.4.0",
+    "nodemon": "^3.1.0",
+    "nyc": "^15.1.0",
+    "supertest": "^7.0.0"
+  }
 }
