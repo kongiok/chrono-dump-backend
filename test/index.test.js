@@ -1,6 +1,7 @@
 import supertest from "supertest";
-const baseUrl = `http://localhost:5050/api/v1`;
-import { expect } from "chai";
+import { env } from "process";
+const baseUrl = `http://localhost:${env.PROGRAM_PORT}/api/v1`;
+
 
 const api = supertest(baseUrl);
 

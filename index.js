@@ -1,9 +1,12 @@
 import express from "express";
+import { env } from "process";
+import { config } from "dotenv";
+config();
 
 const app = express();
-const PORT = 5050;
+const PORT = env.PROGRAM_PORT;
 
-app.get("/api/v1/", (req, res) => {
+app.get("/v1/", (req, res) => {
   res.status(200).send("Hello World");
 });
 
