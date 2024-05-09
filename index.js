@@ -4,7 +4,7 @@ import { config } from "dotenv";
 config();
 
 const app = express();
-const PORT = env.PROGRAM_PORT;
+const PORT = env.PORT;
 
 app.get("/v1/", (req, res) => {
   res.status(200).send("Hello World");

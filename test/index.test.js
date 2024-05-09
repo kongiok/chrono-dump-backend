@@ -1,6 +1,6 @@
 import supertest from "supertest";
 import { env } from "process";
-const baseUrl = `http://localhost:${env.PROGRAM_PORT}/api/v1`;
+const baseUrl = `http://localhost:${env.PORT}/api/v1`;
 
 
 const api = supertest(baseUrl);
