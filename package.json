@@ -1,0 +1,19 @@
+{
+  "name": "chrono-dump-backend",
+  "version": "1.0.0",
+  "description": "The backend for chrono-dump",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kongiok/chrono-dump-backend.git"
+  },
+  "author": "Ong Kong Giok, Yu Ting Lai",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/kongiok/chrono-dump-backend/issues"
+  },
+  "homepage": "https://github.com/kongiok/chrono-dump-backend#readme"
+}
