@@ -1,9 +1,9 @@
 import express from "express";
 import { env } from "process";
 import { config } from "dotenv";
-import { v1UsersRouter } from "./routes/v1/users/users.js";
-import { v1AuthRouter } from "./routes/v1/auth/auth.js";
-import { v1TasksRouter } from "./routes/v1/tasks/tasks.js";
+import { v1UsersRouter } from "./routes/v1/users.route.js";
+import { v1AuthRouter } from "./routes/v1/auth.route.js";
+import { v1TasksRouter } from "./routes/v1/tasks.route.js";
 config();
 
 const app = express();
