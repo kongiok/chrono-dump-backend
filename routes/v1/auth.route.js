@@ -25,10 +25,18 @@ router.post('/login',
       return res.status(401).send({ msg: 'Invalid email or password' });
     }
     if (!is_active) {
-      setUserActive(user.id);
+      await setUserActive(user.id);
     }
-    const token = await generateToken({ id, scope: "tasks:write users:write", expiresIn: "1d", issur: req.hostname, audience: req.headers.host });
-    res.status(200).send({ token });
+    let token;
+    try {
+      token = await generateToken({ id, scope: "tasks:write users:write", expiresIn: "1d", issur: req.hostname, audience: req.headers.host });
+    } catch (err) {
+      return res.status(500).send({
+        msg: 'Internal server error',
+        error: err
+      });
+    }
+    return res.status(200).send({ token });
   });
 
 router.post('/logout',

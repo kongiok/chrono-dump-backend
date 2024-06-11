@@ -1,13 +1,15 @@
 import { isValidEmail, isValidPassword } from "../../utils/v1/validate.util.js";
-import { getUserByEmail } from "../../models/v1/users.model.js";
+import { getUserByEmail, getUserById } from "../../models/v1/users.model.js";
+import { decodeToken, verifyToken } from "../../services/v1/auth.service.js";
+
 
 export const validateUserCredentials = (req, res, next) => {
   const [scheme, credentials] = req.headers.authorization.split(' ');
   if (scheme !== 'Basic') {
     return res.status(401).send({ message: 'Invalid authentication scheme' });
   }
-
-  const [email, password] = Buffer.from(credentials, 'base64').toString('utf-8').split(':');
+  const decodedCredentials = Buffer.from(credentials, 'base64').toString('utf-8');
+  const [email, password] = decodedCredentials.split(':');
   if (!email || !password) {
     return res.status(401).send({ message: 'Invalid credentials format' });
   }
@@ -58,6 +60,47 @@ export const isValidToken = async (req, res, next) => {
     const token = await verifyToken(token);
   } catch (err) {
     return res.status(401).send('Invalid authorization header');
+  }
+  next();
+}
+
+export const hasLogin = async (req, res, next) => {
+  if (!req.headers.authorization) {
+    return res.status(401).send('Invalid authorization header');
+  }
+  if (req.headers.authorization.split(' ')[0] !== 'Bearer') {
+    return res.status(401).send('Invalid authorization header');
+  }
+  const token = req.headers.authorization.split(' ')[1];
+  if (!token) {
+    return res.status(401).send('Invalid authorization header');
+  }
+  try {
+    const { client_id, exp, scope } = (await verifyToken(token)).payload;
+    const currentTimestamp = Date.now() / 1000;
+    const expirationTimestamp = exp;
+    const timeRemaining = expirationTimestamp - currentTimestamp;
+    // const minutesRemaining = Math.floor(timeRemaining / 60);
+    // const secondsRemaining = timeRemaining % 60;
+    if (timeRemaining < 0) {
+      return res.status(401).send({ msg: 'Token expired', exp, now: Date.now() });
+    }
+    const user = await getUserById(client_id);
+    if (!user) {
+      return res.status(401).send({ msg: 'User not found', sub });
+    }
+    req.body.current = {
+      scope,
+      exp,
+      client_id,
+    }
+
+  } catch (err) {
+    return res.status(401).send({
+      msg: 'Invalid authorization header',
+      error: err.message,
+      token: (await verifyToken(token)).payload,
+    });
   }
   next();
 }

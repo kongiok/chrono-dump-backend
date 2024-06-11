@@ -4,11 +4,15 @@ import { config } from "dotenv";
 import { v1UsersRouter } from "./routes/v1/users.route.js";
 import { v1AuthRouter } from "./routes/v1/auth.route.js";
 import { v1TasksRouter } from "./routes/v1/tasks.route.js";
+import cors from "cors";
+import morgan from "morgan";
 config();
 
 const app = express();
 const PORT = env.PORT || 3000;
 
+app.use(cors());
+app.use(morgan());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
